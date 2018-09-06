@@ -1,0 +1,11 @@
+<form (ngSubmit)="onSubmit()" [formGroup]="form">
+  <app-question *ngFor="let question of questions" [question]="question" [form]="form"></app-question>
+  <ion-buttons right padding>
+    <button ion-button type="reset" color="danger">
+      <ion-icon name="trash"></ion-icon>Cancel
+    </button>
+    <button ion-button type="submit" [disabled]="!form.valid">
+      <ion-icon name="add"></ion-icon>Save
+    </button>
+  </ion-buttons>
+</form>

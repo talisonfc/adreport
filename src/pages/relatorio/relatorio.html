@@ -1,0 +1,43 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>AD Report</ion-title>
+    <ion-buttons right>
+      <!-- <button ion-button clear (click)="setFilterAno()">2018</button> -->
+      <button ion-button clear (click)="add()">
+        <ion-icon name="paper"></ion-icon> Criar Relatorio
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <!-- <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar> -->
+  <ion-list>
+    <ion-item *ngFor="let relatorio of relatorios; index as i">
+      <button ion-button clear color="dark" item-start (click)="open(relatorio)">
+        <ion-icon name="paper"></ion-icon>
+      </button>
+      <!-- {{calendario.get(relatorio.competencia)}} -->
+      {{relatorio.competencia.mes | competencia}} - {{relatorio.competencia.ano}}
+      <ion-buttons right item-end>
+        <button ion-button clear (click)="generateFullReport(relatorio)">
+          <ion-icon name="ios-document"></ion-icon>
+          Relatório Analítico
+        </button>
+        <button ion-button clear (click)="generateSimpleReport(relatorio)">
+          <ion-icon name="ios-document-outline"></ion-icon>
+          Relatório Resumido
+        </button>
+        <button ion-button clear color="danger" (click)="remove(relatorio, index)">
+          <ion-icon name="trash"></ion-icon>
+        </button>
+        <button ion-button clear (click)="edit(relatorio)">
+          <ion-icon name="create"></ion-icon>
+        </button>
+        <button ion-button clear color="dark" (click)="open(relatorio)">
+          <ion-icon name="ios-arrow-dropright-circle-outline"></ion-icon>
+        </button>
+      </ion-buttons>
+    </ion-item>
+  </ion-list>
+</ion-content>

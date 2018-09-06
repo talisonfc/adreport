@@ -1,0 +1,24 @@
+<div [formGroup]="form">
+
+  <div [ngSwitch]="question.controlType">
+
+    <ion-item *ngSwitchCase="'textbox'" >
+      <!-- <ion-label fixed [attr.for]="question.key">{{question.label}}</ion-label> -->
+      <ion-input [formControlName]="question.key" 
+        [placeholder]="question.label"
+        [id]="question.key"
+        [type]="question.type"></ion-input>
+  
+    </ion-item>
+
+    <ion-item *ngSwitchCase="'dropdown'" >
+      <ion-label  [attr.for]="question.key">{{question.label}}</ion-label>
+      <ion-select [id]="question.key"
+        [formControlName]="question.key">
+        <ion-option *ngFor="let opt of question.options" [value]="opt.key">{{opt.value}}</ion-option>
+      </ion-select>
+    </ion-item>
+  </div>
+
+  <div class="errorMessage" *ngIf="!isValid">{{question.label}} is required</div>
+</div>

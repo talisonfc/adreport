@@ -1,0 +1,94 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>{{title | competencia}}</ion-title>
+    <ion-buttons right>
+      <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
+    </ion-buttons>
+  </ion-navbar>
+  <div>
+    <ion-segment [(ngModel)]="option">
+      <ion-segment-button value="receita">
+        Receita
+      </ion-segment-button>
+      <ion-segment-button value="despesa">
+        Despesa
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+</ion-header>
+
+<ion-content>
+  <div [ngSwitch]="option">
+    <div *ngSwitchCase="'receita'">
+      <ion-fab bottom right>
+        <button ion-fab mini (click)="addReceita()"><ion-icon name="add"></ion-icon></button>
+      </ion-fab>
+
+      <ion-card *ngFor="let cat of categorias.receitas">
+        <ion-card-header>{{cat.value}}</ion-card-header>
+        <ion-card-content>
+          <ion-list>
+            <div *ngFor="let receita of relatorio.receitas; index as i">
+              <ion-item *ngIf="cat.key==receita.categoria">
+                <button ion-button clear item-start>{{receita.data | datebr}}</button>
+                <ion-grid>
+                  <ion-row>
+                    <ion-col col-2>{{receita.autor | categoria:"autores"}}</ion-col>
+                    <ion-col col-8>{{receita.descricao}}</ion-col>
+                    <ion-col col-2>{{receita.valor | money}}</ion-col>
+                  </ion-row>
+                </ion-grid>
+                <ion-buttons right item-end>
+                  <button ion-button color="danger" clear (click)="removeReceita(i)">
+                    <ion-icon name="trash"></ion-icon>
+                  </button>
+                  <button ion-button clear (click)="editReceita(receita)">
+                    <ion-icon name="create"></ion-icon>
+                  </button>
+                </ion-buttons>
+              </ion-item>
+            </div>
+          </ion-list>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <div *ngSwitchCase="'despesa'">
+
+      <ion-fab bottom right>
+        <button ion-fab mini color="danger" (click)="addDespesa()">
+          <ion-icon name="add"></ion-icon>
+        </button>
+      </ion-fab>
+
+      <ion-card *ngFor="let cat of categorias.despesas">
+        <ion-card-header>{{cat.value}}</ion-card-header>
+        <ion-card-content>
+          <ion-list>
+            <div *ngFor="let despesa of relatorio.despesas; index as i">
+              <ion-item *ngIf="cat.key==despesa.categoria">
+                <button ion-button clear item-start>{{despesa.data | datebr}}</button>
+                <ion-grid>
+                  <ion-row>
+                    <ion-col col>{{despesa.autor| categoria:"autores"}}</ion-col>
+                    <ion-col col>{{despesa.descricao}}</ion-col>
+                    <ion-col col>{{despesa.valor | money}}</ion-col>
+                  </ion-row>
+                </ion-grid>
+                <ion-buttons right item-end>
+                  <button ion-button color="danger" clear (click)="removeDespesa(i)">
+                    <ion-icon name="trash"></ion-icon>
+                  </button>
+                  <button ion-button clear (click)="editDespesa(despesa)">
+                    <ion-icon name="create"></ion-icon>
+                  </button>
+                </ion-buttons>
+              </ion-item>
+            </div>
+          </ion-list>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div>
+</ion-content>

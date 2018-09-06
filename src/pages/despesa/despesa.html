@@ -1,0 +1,59 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Despesa</ion-title>
+    <ion-buttons right>
+      <button ion-button clear (click)="close()">
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <ion-list>
+      <ion-item>
+        <ion-label>Data</ion-label>
+        <ion-input type="date" formControlName="data"></ion-input>
+
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Valor</ion-label>
+        <ion-input [brmasker]="{money: true}" formControlName="valor"></ion-input>
+
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Descrição</ion-label>
+        <ion-input type="text" formControlName="descricao"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Cetegoria</ion-label>
+        <!-- <ion-input type="text" formControlName="categoria"></ion-input> -->
+        <ion-select formControlName="categoria">
+          <ion-option *ngFor="let op of categorias.despesas" [value]="op.key">{{op.value}}</ion-option>
+        </ion-select>
+
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Origem</ion-label>
+        <!-- <ion-input type="text" formControlName="autor"></ion-input> -->
+        <ion-select formControlName="autor">
+          <ion-option *ngFor="let op of categorias.autores" [value]="op.key">{{op.value}}</ion-option>
+        </ion-select>
+
+      </ion-item>
+    </ion-list>
+
+    <ion-buttons right>
+      <button type="reset" ion-button color="danger">Limpar</button>
+      <button type="submit" ion-button>Salvar</button>
+    </ion-buttons>
+  </form>
+</ion-content>

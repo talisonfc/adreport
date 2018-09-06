@@ -1,0 +1,38 @@
+<ion-header>
+
+  <ion-navbar color="primary">
+    <ion-title>Criar Relatorio</ion-title>
+    <ion-buttons right>
+      <button ion-button clear (click)="close()">
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <ion-list>
+      <ion-item>
+        <ion-label>Competência</ion-label>
+        <!-- <ion-input type="text" formControlName="competencia"></ion-input> -->
+        <ion-select formControlName="competencia">
+          <ion-option *ngFor="let item of competenciaList; index as i" [value]="i">{{item}}</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label>Data Inicio</ion-label>
+        <ion-input type="date" formControlName="dataInicio"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Data Fim</ion-label>
+        <ion-input type="date" formControlName="dataFim"></ion-input>
+      </ion-item>
+    </ion-list>
+    <ion-buttons right>
+      <button type="reset" ion-button color="danger">Limpar</button>
+      <button  type="submit" ion-button color="primary">Salvar</button>
+    </ion-buttons>
+  </form>
+</ion-content>

@@ -1,0 +1,17 @@
+page-relatorio-edit {
+    ion-buttons{
+        margin-left: 10px;
+    }
+
+    ion-list .label-md{
+        margin: 0;
+    }
+
+    ion-list .button-md{
+        height: auto;
+    }
+
+    .card-header-md{
+        background: map-get($colors, light );
+    }
+}

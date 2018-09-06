@@ -1,0 +1,11 @@
+{
+  "name": "adreport",
+  "integrations": {},
+  "type": "ionic-angular",
+  "proxies": [
+    {
+      "path": "/relatorio",
+      "proxyUrl": "http://localhost:3000/relatorio"
+    }
+  ]
+}
