@@ -1,0 +1,111 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Categoria</ion-title>
+  </ion-navbar>
+  <div>
+    <ion-segment [(ngModel)]="option">
+      <ion-segment-button value="entrada">
+        Entrada
+      </ion-segment-button>
+      <ion-segment-button value="saida">
+        Saída
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+</ion-header>
+
+
+<ion-content padding>
+
+
+  <div [ngSwitch]="option">
+    <ion-list *ngSwitchCase="'entrada'">
+      <ion-buttons>
+        <button ion-button outline (click)="addCategoriaEntrada()">
+          <ion-icon name="add"></ion-icon> Nova categoria
+        </button>
+      </ion-buttons>
+
+      <ion-list no-lines>
+        <ion-item *ngFor="let categoria of categoriaEntrada; index as i">
+          {{categoria.value}}
+          <div class="subcatg" *ngFor="let sub of categoria.subcategoria; index as j">
+            <button ion-button clear color="danger" (click)="remove(categoria.subcategoria,j,'entrada')">
+              <ion-icon name="trash"></ion-icon>
+            </button>
+            <button ion-button clear (click)="edit(sub,'entrada')">
+              <ion-icon name="create"></ion-icon>
+            </button>
+            <button ion-button clear color="dark">{{sub.value}}</button>
+
+          </div>
+
+          <ion-buttons item-end>
+            <button ion-button clear color="danger" (click)="remove(categoriaEntrada,i,'entrada')">
+              <ion-icon name="trash"></ion-icon>
+            </button>
+            <button ion-button clear (click)="edit(categoria,'entrada')">
+              <ion-icon name="create"></ion-icon>
+            </button>
+            <button ion-button outline (click)="addSubcategoria(categoria, 'entrada')">
+              <ion-icon name="add"></ion-icon> Subcategoria
+            </button>
+          </ion-buttons>
+
+        </ion-item>
+      </ion-list>
+    </ion-list>
+
+    <ion-list *ngSwitchCase="'saida'">
+      <ion-buttons>
+        <button ion-button outline (click)="addCategoriaSaida()" color="danger">
+          <ion-icon name="add"></ion-icon> Nova categoria
+        </button>
+      </ion-buttons>
+
+      <ion-list no-lines>
+        <ion-item *ngFor="let categoria of categoriaSaida; index as i">
+          {{categoria.value}}
+          <div class="subcatg" *ngFor="let sub of categoria.subcategoria; index as j">
+            <button ion-button clear color="danger" (click)="remove(categoria.subcategoria,j, 'saida')">
+              <ion-icon name="trash"></ion-icon>
+            </button>
+            <button ion-button clear (click)="edit(sub,'saida')">
+              <ion-icon name="create"></ion-icon>
+            </button>
+            <button ion-button clear (click)="addSubcategoria(sub,'saida')">
+              <ion-icon name="add"></ion-icon>
+            </button>
+            <button ion-button clear color="dark">{{sub.value}}</button>
+
+            <div class="subsubcatg" *ngIf="sub.subcategoria">
+              <div *ngFor="let subsub of sub.subcategoria; index as k">
+                <button ion-button clear color="danger" (click)="remove(sub.subcategoria,k, 'saida')">
+                  <ion-icon name="trash"></ion-icon>
+                </button>
+                <button ion-button clear (click)="edit(subsub,'saida')">
+                  <ion-icon name="create"></ion-icon>
+                </button>
+                <button ion-button clear color="dark">{{subsub.value}}</button>
+              </div>
+            </div>
+          </div>
+
+          <ion-buttons item-end>
+            <button ion-button clear color="danger" (click)="remove(categoriaSaida,i,'saida')">
+              <ion-icon name="trash"></ion-icon>
+            </button>
+            <button ion-button clear (click)="edit(categoria,'saida')">
+              <ion-icon name="create"></ion-icon>
+            </button>
+            <button ion-button outline (click)="addSubcategoria(categoria, 'saida')">
+              <ion-icon name="add"></ion-icon> Subcategoria
+            </button>
+          </ion-buttons>
+
+        </ion-item>
+      </ion-list>
+    </ion-list>
+  </div>
+</ion-content>

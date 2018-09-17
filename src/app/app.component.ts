@@ -3,7 +3,7 @@ import { Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { RelatorioPage } from '../pages/relatorio/relatorio';
-import { initializeApp } from 'firebase'
+import { CategoriaPage } from '../pages/categoria/categoria';
 
 const config = {
   apiKey: "AIzaSyADuWXG_cQ5IbU4fkurKK6E4Vb80ldIf_E",
@@ -21,7 +21,6 @@ export class MyApp {
   rootPage: any = RelatorioPage;
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
-    initializeApp(config)
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.

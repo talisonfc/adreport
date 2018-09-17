@@ -6,6 +6,7 @@ import { RelatorioEditPage } from '../relatorio-edit/relatorio-edit';
 
 import * as pdfMake from 'pdfmake/build/pdfmake'
 import * as pdfFonts from 'pdfmake/build/vfs_fonts'
+import { CategoriaPage } from '../categoria/categoria';
 
 @Component({
   selector: 'relatorio-page',
@@ -373,6 +374,10 @@ export class RelatorioPage implements OnInit {
       ]
     }
     pdfMake.createPdf(body).download(`relatorio-resumido-${relatorio.competencia.mes}-${relatorio.competencia.ano}.pdf`)
+  }
+
+  config(){
+    this.navCtrl.push(CategoriaPage)
   }
 }
 

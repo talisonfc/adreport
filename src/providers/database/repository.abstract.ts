@@ -1,12 +1,14 @@
-import { database } from 'firebase'
 import { HttpClient, HttpHeaders, HttpResponseBase } from "@angular/common/http"
 import { RelatorioModel } from '../../model/relatorio.model';
 
 const URL_API = "http://localhost:3000/"
-const ADD = "relatorio"
-const DELETE = "relatorio/remove/"
-const SELECT = "relatorio/"
+const ADD_RELATORIO = "relatorio"
+const DELETE_RELATORIO = "relatorio/remove/"
+const SELECT_RELATORIO = "relatorio/"
 const LIST = "relatorio"
+
+const ADD_CATEGORIAS = "categoria/"
+const GET_CATEGORIAS = "categoria/"
 
 export abstract class Repository<T>{
   rep: Array<T>;
@@ -15,14 +17,17 @@ export abstract class Repository<T>{
 
   constructor(repository: Array<T>, http: HttpClient) {
     this.rep = repository;
-    this.db = database().ref("relatorios")
     this.http = http;
   }
 
   add(obj: T) {
     this.rep.push(obj)
     // this.db.push(obj)
-    this.http.post(URL_API+ADD,obj).subscribe(res=>{})
+    this.http.post(URL_API+ADD_RELATORIO,obj).subscribe(res=>{})
+  }
+
+  addCategoria(obj: Object, tipo:string){
+    this.http.post(URL_API+ADD_CATEGORIAS+tipo, obj).subscribe(res=>{})
   }
 
   addRep(obj: T) {
@@ -30,7 +35,7 @@ export abstract class Repository<T>{
   }
 
   remove(filename: string) {
-    return this.http.get(`${URL_API}${DELETE}${filename}`)
+    return this.http.get(`${URL_API}${DELETE_RELATORIO}${filename}`)
   }
 
   removeByIndex(index: number) {
@@ -38,7 +43,7 @@ export abstract class Repository<T>{
   }
 
   update(obj: T) {
-    this.http.post(URL_API+ADD, obj).subscribe(res=>{
+    this.http.post(URL_API+ADD_RELATORIO, obj).subscribe(res=>{
       console.log(res)
     })
   }
@@ -67,6 +72,7 @@ export abstract class Repository<T>{
   }
 
   getReport(filename) {
-    return this.http.get(URL_API+SELECT+filename)
+    return this.http.get(URL_API+SELECT_RELATORIO+filename)
   }
+
 }

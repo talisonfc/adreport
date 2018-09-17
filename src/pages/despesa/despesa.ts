@@ -11,9 +11,9 @@ import { CategoriaConfig } from '../../configuracao/categoria.config';
 })
 export class DespesaPage implements OnInit{
 
-  form
+  form: any
   despesa: DespesaModel
-  categorias
+  categorias: any
 
   constructor(
     private categoriaConf: CategoriaConfig,
@@ -21,10 +21,11 @@ export class DespesaPage implements OnInit{
     public view: ViewController,
     public navCtrl: NavController, public navParams: NavParams) {
       this.despesa = new DespesaModel()
-      this.categorias = categoriaConf
   }
 
   ngOnInit(){
+    this.categorias = this.navParams.get("categoria")
+
     this.form = this.fb.group({
       data: [this.getHoje()],
       valor: [''],

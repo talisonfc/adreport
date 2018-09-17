@@ -5,6 +5,7 @@ import { ReceitaPage } from '../receita/receita';
 import { DespesaPage } from '../despesa/despesa';
 import { DatabaseProvider } from '../../providers/database/database';
 import { CategoriaConfig } from '../../configuracao/categoria.config';
+import { CategoriaModel } from '../../configuracao/categoria.model';
 
 @IonicPage()
 @Component({
@@ -18,6 +19,9 @@ export class RelatorioEditPage implements OnInit {
   option: string = "receita"
   categorias: CategoriaConfig
 
+  categoriasEntrada: Array<CategoriaModel>
+  categoriasSaida: Array<CategoriaModel>
+
   constructor(
     private db: DatabaseProvider,
     public modal: ModalController,
@@ -28,10 +32,20 @@ export class RelatorioEditPage implements OnInit {
     this.categorias = new CategoriaConfig()
     this.relatorio = this.navParams.get('payload')
     this.title = this.relatorio.competencia.mes
+
+    this.db.getCategoria('entrada').then(res=>{
+      // console.log(res)
+      this.categoriasEntrada = <Array<CategoriaModel>>res;
+    })
+
+    this.db.getCategoria('saida').then(res=>{
+      console.log(res)
+      this.categoriasSaida = <Array<CategoriaModel>>res;
+    })
   }
 
   addReceita() {
-    let md = this.modal.create(ReceitaPage)
+    let md = this.modal.create(ReceitaPage, {categoria: this.categoriasEntrada})
     md.present()
     md.onWillDismiss(data => {
       if (data != undefined) {
@@ -55,7 +69,7 @@ export class RelatorioEditPage implements OnInit {
   }
 
   addDespesa() {
-    let md = this.modal.create(DespesaPage)
+    let md = this.modal.create(DespesaPage, {categoria: this.categoriasSaida})
     md.present()
     md.onWillDismiss(data => {
       if (data != undefined) {

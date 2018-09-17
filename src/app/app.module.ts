@@ -19,6 +19,7 @@ import { DespesaPage } from '../pages/despesa/despesa';
 import { CategoriaConfig } from '../configuracao/categoria.config';
 
 import { PdfViewerModule } from 'ng2-pdf-viewer'
+import { CategoriaPage } from '../pages/categoria/categoria';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { PdfViewerModule } from 'ng2-pdf-viewer'
     RelatorioPage,
     RelatorioEditPage,
     ReceitaPage,
-    DespesaPage
+    DespesaPage,
+    CategoriaPage
   ],
   imports: [
     BrowserModule,
@@ -43,7 +45,8 @@ import { PdfViewerModule } from 'ng2-pdf-viewer'
     RelatorioPage,
     RelatorioEditPage,
     ReceitaPage,
-    DespesaPage
+    DespesaPage,
+    CategoriaPage
   ],
   providers: [
     StatusBar,

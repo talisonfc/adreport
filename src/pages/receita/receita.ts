@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angul
 import { FormBuilder } from '@angular/forms';
 import { ReceitaModel } from '../../model/receita.model';
 import { CategoriaConfig } from '../../configuracao/categoria.config';
+import { DatabaseProvider } from '../../providers/database/database';
 
 @IonicPage()
 @Component({
@@ -25,13 +26,16 @@ export class ReceitaPage implements OnInit{
   constructor(
     private categoriaConf: CategoriaConfig,
     private fb: FormBuilder,
+    private db: DatabaseProvider,
     public view: ViewController,
     public navCtrl: NavController, public navParams: NavParams) {
-      this.categorias = categoriaConf 
+      
   }
 
   ngOnInit(){
     this.receita = this.navParams.get("payload")
+    this.categorias = this.navParams.get("categoria")
+    console.log(this.categorias)
     if(this.receita == undefined){
       this.receita = new ReceitaModel()
     }

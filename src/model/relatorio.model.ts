@@ -8,6 +8,8 @@ export class RelatorioModel{
     competencia: {mes: number, ano: number} // competencia refere-se ao mes do relatorio
     dataInicio: Date // marca o limite inicial do relatorio
     dataFim: Date // marca o limite final do relatio
+    done: boolean // usado para definir se o relatorio ainda pode ser editado. Caso não possa, vincular copia
+    copia?: RelatorioModel
 
     constructor(){
         this.competencia = {mes: 0, ano:0}

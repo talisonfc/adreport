@@ -15,10 +15,16 @@ app.use(function(req, res, next) {
 
 var controller = require("./controller")
 
-app.get("/relatorio/:filename", controller.select)
-app.post("/relatorio", controller.add)
-app.get("/relatorio", controller.list)
-app.get("/relatorio/remove/:filename", controller.remove)
+app.post("/relatorio", controller.addRelatorio)
+app.get("/relatorio/:filename", controller.getRelatorio)
+
+app.post("/categoria/entrada", controller.addCategoriaEntrada)
+app.post("/categoria/saida", controller.addCategoriaSaida)
+app.get("/categoria/entrada", controller.getCategoriaEntrada)
+app.get("/categoria/saida", controller.getCategoriaSaida)
+
+app.get("/relatorio", controller.listRelatorios)
+app.get("/relatorio/remove/:filename", controller.removeRelatorio)
 
 app.listen(3000, function(){
 	console.log("Servidor iniciado na porta 3000")

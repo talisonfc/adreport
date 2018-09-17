@@ -35,7 +35,7 @@
         <ion-label>Cetegoria</ion-label>
         <!-- <ion-input type="text" formControlName="categoria"></ion-input> -->
         <ion-select formControlName="categoria">
-          <ion-option *ngFor="let op of categorias.receitas" [value]="op.key">{{op.value}}</ion-option>
+          <ion-option *ngFor="let op of categorias[0]['subcategoria']" [value]="op.key">{{op.value}}</ion-option>
         </ion-select>
       </ion-item>
 
@@ -43,7 +43,7 @@
         <ion-label>Origem</ion-label>
         <!-- <ion-input type="text" formControlName="autor"></ion-input> -->
         <ion-select formControlName="autor">
-          <ion-option *ngFor="let op of categorias.autores" [value]="op.key">{{op.value}}</ion-option>
+          <ion-option *ngFor="let op of categorias[1]['subcategoria']" [value]="op.key">{{op.value}}</ion-option>
         </ion-select>
 
       </ion-item>

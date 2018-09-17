@@ -14,4 +14,8 @@ page-relatorio-edit {
     .card-header-md{
         background: map-get($colors, light );
     }
+
+    ion-fab{
+        z-index: 1000;
+    }
 }

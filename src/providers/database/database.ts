@@ -5,6 +5,8 @@ import { ReceitaModel } from '../../model/receita.model';
 import { DespesaModel } from '../../model/despesa.model';
 import { HttpClient } from '@angular/common/http';
 import { AdaperReportRepository } from './adapter-report-repository';
+import { CategoriaModel } from '../../configuracao/categoria.model';
+import { CONTENT_ATTR } from '@angular/platform-browser/src/dom/dom_renderer';
 
 @Injectable()
 export class DatabaseProvider{
@@ -73,5 +75,72 @@ export class DatabaseProvider{
       obj[key] = value[key]
     })
     return obj
+  }
+
+  getCategoria(tipo: string){
+    return new Promise((resolve,reject)=>{
+      let temp: Array<CategoriaModel> = new Array<CategoriaModel>()
+      this.http.get<Array<CategoriaModel>>("http://localhost:3000/categoria/"+tipo).subscribe(res=>{
+        if(res instanceof Array){
+          res.forEach(element => {
+            let cat = new CategoriaModel()
+            cat.key = element.key
+            cat.value = element.value
+            if(element.subcategoria!=undefined){
+              element.subcategoria.forEach(catt=>{
+                let subcat = new CategoriaModel()
+                subcat.key = catt.key
+                subcat.value = catt.value
+                
+
+                if(catt.subcategoria){
+                  catt.subcategoria.forEach(cattt=>{
+                    let subcatt = new CategoriaModel();
+                    subcatt.key = cattt['key']
+                    subcatt.value = cattt['value']
+
+                    if(subcat.subcategoria == undefined) subcat.subcategoria = new Array<CategoriaModel>()
+                    subcat.subcategoria.push(subcatt)
+                  })
+                }
+
+                if(cat.subcategoria==undefined) cat.subcategoria = new Array<CategoriaModel>()
+                cat.subcategoria.push(subcat)
+              })
+            }
+            temp.push(cat)
+          })
+          resolve(temp) 
+        }
+        else{
+          let cat = new CategoriaModel()
+          cat.key = res['key']
+          cat.value = res['value']
+          if(res['subcategoria']!=undefined){
+            res['subcategoria'].forEach(catt=>{
+              let subcat = new CategoriaModel()
+              subcat.key = catt.key
+              subcat.value = catt.value
+
+              if(catt.subcategoria){
+                catt.subcategoria.forEach(cattt=>{
+                  let subcatt = new CategoriaModel();
+                  subcatt.key = cattt['key']
+                  subcatt.value = cattt['value']
+
+                  if(subcat.subcategoria == undefined) subcat.subcategoria = new Array<CategoriaModel>()
+                  subcat.subcategoria.push(subcatt)
+                })
+              }
+              
+              if(cat.subcategoria==undefined) cat.subcategoria = new Array<CategoriaModel>()
+              cat.subcategoria.push(subcat)
+            })
+          }
+          temp.push(cat)
+          resolve(temp)
+        }
+      })
+    })
   }
 }
