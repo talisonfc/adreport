@@ -1,20 +1,19 @@
-import { Component, OnInit } from '@angular/core';
-import { NavController, AlertController, ModalController } from 'ionic-angular';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { DatabaseProvider } from '../../providers/database/database';
-import { RelatorioModel } from '../../model/relatorio.model';
-import { RelatorioEditPage } from '../relatorio-edit/relatorio-edit';
+import { ModalController, AlertController, NavController } from 'ionic-angular';
 
 import * as pdfMake from 'pdfmake/build/pdfmake'
 import * as pdfFonts from 'pdfmake/build/vfs_fonts'
-import { CategoriaPage } from '../categoria/categoria';
+import { RelatorioModel } from '../../model/relatorio.model';
+import { RelatorioEditPage } from '../../pages/relatorio-edit/relatorio-edit';
 
 @Component({
-  selector: 'relatorio-page',
-  templateUrl: 'relatorio.html'
+  selector: 'reportlinecontrollers',
+  templateUrl: 'reportlinecontrollers.html'
 })
-export class RelatorioPage implements OnInit {
+export class ReportlinecontrollersComponent {
 
-  relatorios: Array<RelatorioModel>
+  @Input() relatorio: RelatorioModel
 
   constructor(
     private db: DatabaseProvider,
@@ -22,11 +21,6 @@ export class RelatorioPage implements OnInit {
     public alert: AlertController,
     public navCtrl: NavController) {
     pdfMake.vfs = pdfFonts.pdfMake.vfs
-  }
-
-  ngOnInit() {
-    this.relatorios = this.db.handleRelatorio().list()
-    // console.log(this.relatorios)
   }
 
   add() {
@@ -41,8 +35,8 @@ export class RelatorioPage implements OnInit {
 
   edit(relatorio: RelatorioModel) {
     let md = this.modal.create('relatorio-crud', { payload: relatorio })
-    md.onWillDismiss(data=>{
-      if(data != undefined){
+    md.onWillDismiss(data => {
+      if (data != undefined) {
         this.db.handleRelatorio().update(data.payload)
       }
     })
@@ -51,8 +45,6 @@ export class RelatorioPage implements OnInit {
 
   remove(relatorio: RelatorioModel, index: number) {
     var filename = `adreport-${relatorio.competencia.mes}-${relatorio.competencia.ano}.rp`
-    // console.log(filename)
-    // console.log(relatorio)
     this.db.handleRelatorio().remove(filename).subscribe(res => {
       this.removeByIndex(index)
     })
@@ -62,57 +54,18 @@ export class RelatorioPage implements OnInit {
     this.db.handleRelatorio().removeByIndex(index)
   }
 
-  closeReport(relatorio){
+  closeReport(relatorio) {
     relatorio.done = true;
     this.db.handleRelatorio().update(relatorio)
   }
 
-  copyReport(relatorio){
-    
+  copyReport(relatorio) {
+
   }
 
   open(relatorio: RelatorioModel) {
     this.navCtrl.push(RelatorioEditPage, { payload: relatorio })
   }
-
-  // setFilterAno() {
-  //   this.getAnos(this.relatorios)
-  //   let alert = this.alert.create({
-  //     title: "Ano",
-  //     buttons: [
-  //       {
-  //         text: "Cancelar"
-  //       }
-  //     ]
-  //   })
-
-  //   this.anos.forEach(ano => {
-  //     alert.addInput({
-  //       type: "radio",
-  //       value: "" + ano,
-  //       label: "" + ano,
-  //       handler: data => {
-  //         console.log()
-  //         alert.dismiss()
-  //       }
-  //     })
-  //   })
-
-  //   alert.present()
-  // }
-
-  // getAnos(relatorios: Array<RelatorioModel>) {
-  //   this.anos = new Array<number>()
-  //   relatorios.forEach(relatorio => {
-  //     // if(this.have(relatorio.competencia.ano, this.anos)==false){
-  //     //   this.anos.push(relatorio.competencia.ano)
-  //     // }
-  //     this.have(relatorio.competencia.ano, this.anos).then(res => {
-  //       this.anos.push(relatorio.competencia.ano)
-  //     }).catch(() => { })
-  //   })
-  //   console.log(this.anos)
-  // }
 
   have(ano: number, anos: Array<number>) {
     return new Promise((resolve, reject) => {
@@ -134,26 +87,26 @@ export class RelatorioPage implements OnInit {
     let ofertas = []
     let ofertasMissionaria = []
 
-    dizimos.push([{text: 'Data', bold: true}, {text: 'Origem', bold: true}, {text: 'Descrição', bold: true}, {text: 'Valor', bold: true}])
-    ofertas.push([{text: 'Data', bold: true}, {text: 'Origem', bold: true}, {text: 'Descrição', bold: true}, {text: 'Valor', bold: true}])
-    ofertasMissionaria.push([{text: 'Data', bold: true}, {text: 'Origem', bold: true}, {text: 'Descrição', bold: true}, {text: 'Valor', bold: true}])
+    dizimos.push([{ text: 'Data', bold: true }, { text: 'Origem', bold: true }, { text: 'Descrição', bold: true }, { text: 'Valor', bold: true }])
+    ofertas.push([{ text: 'Data', bold: true }, { text: 'Origem', bold: true }, { text: 'Descrição', bold: true }, { text: 'Valor', bold: true }])
+    ofertasMissionaria.push([{ text: 'Data', bold: true }, { text: 'Origem', bold: true }, { text: 'Descrição', bold: true }, { text: 'Valor', bold: true }])
 
-    let receitasDizimo = relatorio.receitas.filter(receita=>{return receita.categoria.key =='dizimo'})
-    let receitasOferta = relatorio.receitas.filter(receita=>{return receita.categoria.key =='oferta'})
-    let receitasOfertaMissionaria = relatorio.receitas.filter(receita=>{return receita.categoria.key =='oferta_missionaria'})
-    
+    let receitasDizimo = relatorio.receitas.filter(receita => { return receita.categoria.key == 'dizimo' })
+    let receitasOferta = relatorio.receitas.filter(receita => { return receita.categoria.key == 'oferta' })
+    let receitasOfertaMissionaria = relatorio.receitas.filter(receita => { return receita.categoria.key == 'oferta_missionaria' })
 
-    receitasDizimo.forEach(receita=>{
+
+    receitasDizimo.forEach(receita => {
       var temp = [receita.data, receita.autor, receita.descricao, receita.valor]
       dizimos.push(temp)
     })
 
-    receitasOferta.forEach(receita=>{
+    receitasOferta.forEach(receita => {
       var temp = [receita.data, receita.autor, receita.descricao, receita.valor]
       ofertas.push(temp)
     })
 
-    receitasOfertaMissionaria.forEach(receita=>{
+    receitasOfertaMissionaria.forEach(receita => {
       var temp = [receita.data, receita.autor, receita.descricao, receita.valor]
       ofertasMissionaria.push(temp)
     })
@@ -163,25 +116,25 @@ export class RelatorioPage implements OnInit {
     let administrativas = []
     let saude = []
 
-    imoveis.push([{text: 'Data', bold: true}, {text: 'Origem', bold: true}, {text: 'Descrição', bold: true}, {text: 'Valor', bold: true}])
-    administrativas.push([{text: 'Data', bold: true}, {text: 'Origem', bold: true}, {text: 'Descrição', bold: true}, {text: 'Valor', bold: true}])
-    saude.push([{text: 'Data', bold: true}, {text: 'Origem', bold: true}, {text: 'Descrição', bold: true}, {text: 'Valor', bold: true}])
+    imoveis.push([{ text: 'Data', bold: true }, { text: 'Origem', bold: true }, { text: 'Descrição', bold: true }, { text: 'Valor', bold: true }])
+    administrativas.push([{ text: 'Data', bold: true }, { text: 'Origem', bold: true }, { text: 'Descrição', bold: true }, { text: 'Valor', bold: true }])
+    saude.push([{ text: 'Data', bold: true }, { text: 'Origem', bold: true }, { text: 'Descrição', bold: true }, { text: 'Valor', bold: true }])
 
-    let despesasImovel = relatorio.despesas.filter(desp=>{return desp.categoria.key =="imoveis"})
-    let despesasAdministrativa = relatorio.despesas.filter(desp=>{return desp.categoria.key =="administrativas"})
-    let despesasSaude = relatorio.despesas.filter(desp=>{return desp.categoria.key =="saude"})
+    let despesasImovel = relatorio.despesas.filter(desp => { return desp.categoria.key == "imoveis" })
+    let despesasAdministrativa = relatorio.despesas.filter(desp => { return desp.categoria.key == "administrativas" })
+    let despesasSaude = relatorio.despesas.filter(desp => { return desp.categoria.key == "saude" })
 
-    despesasImovel.forEach(desp=>{
+    despesasImovel.forEach(desp => {
       var temp = [desp.data, desp.autor, desp.descricao, desp.valor]
       imoveis.push(temp)
     })
 
-    despesasAdministrativa.forEach(desp=>{
+    despesasAdministrativa.forEach(desp => {
       var temp = [desp.data, desp.autor, desp.descricao, desp.valor]
       administrativas.push(temp)
     })
 
-    despesasSaude.forEach(desp=>{
+    despesasSaude.forEach(desp => {
       var temp = [desp.data, desp.autor, desp.descricao, desp.valor]
       saude.push(temp)
     })
@@ -221,7 +174,7 @@ export class RelatorioPage implements OnInit {
         },
         {
           table: {
-            widths: ['auto',100,'*',100],
+            widths: ['auto', 100, '*', 100],
             body: dizimos
           }
         },
@@ -231,7 +184,7 @@ export class RelatorioPage implements OnInit {
         },
         {
           table: {
-            widths: ['auto',100,'*',100],
+            widths: ['auto', 100, '*', 100],
             body: ofertas
           }
         },
@@ -241,7 +194,7 @@ export class RelatorioPage implements OnInit {
         },
         {
           table: {
-            widths: ['auto',100,'*',100],
+            widths: ['auto', 100, '*', 100],
             body: ofertasMissionaria
           }
         },
@@ -255,7 +208,7 @@ export class RelatorioPage implements OnInit {
         },
         {
           table: {
-            widths: ['auto',100,'*',100],
+            widths: ['auto', 100, '*', 100],
             body: imoveis
           }
         },
@@ -265,7 +218,7 @@ export class RelatorioPage implements OnInit {
         },
         {
           table: {
-            widths: ['auto',100,'*',100],
+            widths: ['auto', 100, '*', 100],
             body: administrativas
           }
         },
@@ -275,7 +228,7 @@ export class RelatorioPage implements OnInit {
         },
         {
           table: {
-            widths: ['auto',100,'*',100],
+            widths: ['auto', 100, '*', 100],
             body: saude
           }
         },
@@ -292,52 +245,52 @@ export class RelatorioPage implements OnInit {
     let totalDizimo: number = 0
     let totalOferta: number = 0
     let totalOfertaMissionaria: number = 0
-    
-    let receitasDizimo = relatorio.receitas.filter(receita=>{return receita.categoria.key =='dizimo'})
-    let receitasOferta = relatorio.receitas.filter(receita=>{return receita.categoria.key =='oferta'})
-    let receitasOfertaMissionaria = relatorio.receitas.filter(receita=>{return receita.categoria.key =='oferta_missionaria'})
-    
 
-    receitasDizimo.forEach(receita=>{
+    let receitasDizimo = relatorio.receitas.filter(receita => { return receita.categoria.key == 'dizimo' })
+    let receitasOferta = relatorio.receitas.filter(receita => { return receita.categoria.key == 'oferta' })
+    let receitasOfertaMissionaria = relatorio.receitas.filter(receita => { return receita.categoria.key == 'oferta_missionaria' })
+
+
+    receitasDizimo.forEach(receita => {
       totalDizimo += receita.valor
     })
 
-    receitasOferta.forEach(receita=>{
+    receitasOferta.forEach(receita => {
       totalOferta += receita.valor
     })
 
-    receitasOfertaMissionaria.forEach(receita=>{
+    receitasOfertaMissionaria.forEach(receita => {
       totalOfertaMissionaria += receita.valor
     })
 
-    resumo.push(['Dízimo',totalDizimo])
-    resumo.push(['Oferta',totalOferta])
-    resumo.push(['Oferta Missionária',totalOfertaMissionaria])
+    resumo.push(['Dízimo', totalDizimo])
+    resumo.push(['Oferta', totalOferta])
+    resumo.push(['Oferta Missionária', totalOfertaMissionaria])
 
     // Despesa
-    let despesasImovel = relatorio.despesas.filter(desp=>{return desp.categoria.key =="imoveis"})
-    let despesasAdministrativa = relatorio.despesas.filter(desp=>{return desp.categoria.key =="administrativas"})
-    let despesasSaude = relatorio.despesas.filter(desp=>{return desp.categoria.key =="saude"})
+    let despesasImovel = relatorio.despesas.filter(desp => { return desp.categoria.key == "imoveis" })
+    let despesasAdministrativa = relatorio.despesas.filter(desp => { return desp.categoria.key == "administrativas" })
+    let despesasSaude = relatorio.despesas.filter(desp => { return desp.categoria.key == "saude" })
 
     let totalImovel: number = 0
     let totalAdministrativo: number = 0
     let totalSaude: number = 0
 
-    despesasImovel.forEach(desp=>{
+    despesasImovel.forEach(desp => {
       totalImovel += desp.valor
     })
 
-    despesasAdministrativa.forEach(desp=>{
+    despesasAdministrativa.forEach(desp => {
       totalAdministrativo += desp.valor
     })
 
-    despesasSaude.forEach(desp=>{
+    despesasSaude.forEach(desp => {
       totalSaude += desp.valor
     })
 
-    resumo.push(['Imovel', ''+totalImovel])
-    resumo.push(['Administrativo', ''+totalAdministrativo])
-    resumo.push(['Saúde', ''+totalSaude])
+    resumo.push(['Imovel', '' + totalImovel])
+    resumo.push(['Administrativo', '' + totalAdministrativo])
+    resumo.push(['Saúde', '' + totalSaude])
 
     var body = {
       styles: {
@@ -370,7 +323,7 @@ export class RelatorioPage implements OnInit {
         },
         {
           table: {
-            widths: ['*',100],
+            widths: ['*', 100],
             body: resumo
           }
         }
@@ -378,9 +331,4 @@ export class RelatorioPage implements OnInit {
     }
     pdfMake.createPdf(body).download(`relatorio-resumido-${relatorio.competencia.mes}-${relatorio.competencia.ano}.pdf`)
   }
-
-  config(){
-    this.navCtrl.push(CategoriaPage)
-  }
 }
-

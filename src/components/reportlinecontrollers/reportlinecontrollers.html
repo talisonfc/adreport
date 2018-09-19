@@ -1,0 +1,37 @@
+<ion-item>
+  <button ion-button clear color="dark" item-start (click)="open(relatorio)">
+    <ion-icon [style.color]="relatorio.done?'#888':'#000'" name="paper"></ion-icon>
+  </button>
+  <!-- {{calendario.get(relatorio.competencia)}} -->
+  <b ion-text [style.color]="relatorio.done?'#888':'#000'">
+    {{relatorio.competencia.mes | competencia}} - {{relatorio.competencia.ano}}</b>
+  <i ion-text [style.color]="relatorio.done?'#888':'#000'">
+    [{{relatorio.dataInicio | datebr}} - {{relatorio.dataFim | datebr}}]</i>
+  <ion-buttons right item-end>
+    <button ion-button clear (click)="generateFullReport(relatorio)">
+      <ion-icon name="ios-document"></ion-icon>
+      Relatório Analítico
+    </button>
+    <button ion-button clear (click)="generateSimpleReport(relatorio)">
+      <ion-icon name="ios-document-outline"></ion-icon>
+      Relatório Resumido
+    </button>
+    <button ion-button outline color="dark" (click)="closeReport(relatorio)" [hidden]="relatorio.done">
+      <ion-icon name="close"></ion-icon>
+      Fechar Relatório
+    </button>
+    <button ion-button outline color="dark" (click)="copyReport(relatorio)" [hidden]="!relatorio.done">
+      <ion-icon name="copy"></ion-icon>
+      Criar Cópia
+    </button>
+    <button ion-button clear color="danger" (click)="remove(relatorio, i)" [disabled]="relatorio.done">
+      <ion-icon name="trash"></ion-icon>
+    </button>
+    <button ion-button clear (click)="edit(relatorio)" [disabled]="relatorio.done">
+      <ion-icon name="create"></ion-icon>
+    </button>
+    <button ion-button clear color="dark" (click)="open(relatorio)">
+      <ion-icon name="ios-arrow-dropright-circle-outline"></ion-icon>
+    </button>
+  </ion-buttons>
+</ion-item>

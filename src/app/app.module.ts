@@ -21,6 +21,8 @@ import { CategoriaConfig } from '../configuracao/categoria.config';
 import { PdfViewerModule } from 'ng2-pdf-viewer'
 import { CategoriaPage } from '../pages/categoria/categoria';
 
+import { ComponentsModule } from '../components/components.module'
+
 @NgModule({
   declarations: [
     MyApp,
@@ -37,7 +39,8 @@ import { CategoriaPage } from '../pages/categoria/categoria';
     PipesModule,
     HttpClientModule,
     BrMaskerModule,
-    PdfViewerModule
+    PdfViewerModule,
+    ComponentsModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

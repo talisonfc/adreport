@@ -20,6 +20,7 @@ export class AdaperReportRepository extends Repository<RelatorioModel>{
                     relatorio.competencia = res['competencia']
                     relatorio.dataInicio = res['dataInicio']
                     relatorio.dataFim = res['dataFim']
+                    relatorio.done = res['done']
                     if (res['receitas']) {
                         relatorio.receitas = this.daoReceitas(res['receitas'])
                     }

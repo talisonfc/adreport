@@ -21,7 +21,7 @@ export class ReceitaPage implements OnInit{
   })
 
   receita: ReceitaModel
-  categorias: any
+  categoria: any
 
   constructor(
     private categoriaConf: CategoriaConfig,
@@ -34,14 +34,22 @@ export class ReceitaPage implements OnInit{
 
   ngOnInit(){
     this.receita = this.navParams.get("payload")
-    this.categorias = this.navParams.get("categoria")
-    console.log(this.categorias)
+    this.categoria = this.navParams.get("categoria")
+    // console.log(this.categoria)
     if(this.receita == undefined){
       this.receita = new ReceitaModel()
+
+      this.form = this.fb.group({
+        data: [''],
+        valor: [''],
+        descricao: [''],
+        categoria: [''],
+        autor: ['']
+      })
     }
     else{
       this.form = this.fb.group({
-        data: [this.getHoje()],
+        data: [this.receita.data],
         valor: [this.receita.valor],
         descricao: [this.receita.descricao],
         categoria: [this.receita.categoria],

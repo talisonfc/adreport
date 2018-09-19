@@ -32,20 +32,22 @@
         <ion-input type="text" formControlName="descricao"></ion-input>
       </ion-item>
 
-      <ion-item>
-        <ion-label>Categoria</ion-label>
-        <!-- <ion-input type="text" formControlName="categoria"></ion-input> -->
-        <ion-select formControlName="categoria">
-          <ion-option *ngFor="let op of categorias[0].subcategoria" [value]="op.key">{{op.value}}</ion-option>
-        </ion-select>
-
+      <ion-item (click)="setCategoria()">
+        {{!despesa.categoria.value? 'Categoria': 'Categoria: '}}
+        <!-- <ion-select formControlName="categoria">
+          <ion-option *ngFor="let op of categoria.saida" [value]="op.key">{{op.value}}</ion-option>
+        </ion-select> -->
+        {{despesa.categoria.value}} {{despesa.categoria.subcategoria ? '> '+despesa.categoria.subcategoria[0].value : ''}}
+        <button ion-button (click)="setCategoria()" item-end clear class="categoria">
+          <ion-icon name="arrow-dropdown"></ion-icon>
+        </button>
       </ion-item>
 
       <ion-item>
         <ion-label>Origem</ion-label>
         <!-- <ion-input type="text" formControlName="autor"></ion-input> -->
         <ion-select formControlName="autor">
-          <ion-option *ngFor="let op of categorias[1].subcategoria" [value]="op.key">{{op.value}}</ion-option>
+          <ion-option *ngFor="let op of categoria.autor" [value]="op.key">{{op.value}}</ion-option>
         </ion-select>
 
       </ion-item>
@@ -53,7 +55,7 @@
 
     <ion-buttons right>
       <button type="reset" ion-button color="danger">Limpar</button>
-      <button type="submit" ion-button>Salvar</button>
+      <button type="submit" ion-button (click)="save()">Salvar</button>
     </ion-buttons>
   </form>
 </ion-content>

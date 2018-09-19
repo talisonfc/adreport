@@ -5,7 +5,7 @@ import { ReceitaModel } from '../../model/receita.model';
 import { DespesaModel } from '../../model/despesa.model';
 import { HttpClient } from '@angular/common/http';
 import { AdaperReportRepository } from './adapter-report-repository';
-import { CategoriaModel } from '../../configuracao/categoria.model';
+import { CategoriaModel } from '../../model/categoria.model';
 import { CONTENT_ATTR } from '@angular/platform-browser/src/dom/dom_renderer';
 
 @Injectable()

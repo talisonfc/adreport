@@ -9,7 +9,7 @@ export class RelatorioModel{
     dataInicio: Date // marca o limite inicial do relatorio
     dataFim: Date // marca o limite final do relatio
     done: boolean // usado para definir se o relatorio ainda pode ser editado. Caso não possa, vincular copia
-    copia?: RelatorioModel
+    copias?: Array<RelatorioModel>
 
     constructor(){
         this.competencia = {mes: 0, ano:0}
@@ -23,5 +23,12 @@ export class RelatorioModel{
 
     addDespesa(despesa: DespesaModel){
         this.despesas.push(despesa)
+    }
+
+    copyYourself(){
+        if(this.copias==undefined){
+            this.copias = new Array<RelatorioModel>()
+        }
+        this.copias.push(Object.assign({},this))
     }
 }

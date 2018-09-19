@@ -32,7 +32,7 @@
     </ion-list>
     <ion-buttons right>
       <button type="reset" ion-button color="danger">Limpar</button>
-      <button  type="submit" ion-button color="primary">Salvar</button>
+      <button  type="submit" ion-button color="primary" [disabled]="!form.valid">Salvar</button>
     </ion-buttons>
   </form>
 </ion-content>

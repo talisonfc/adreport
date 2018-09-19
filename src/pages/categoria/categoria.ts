@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
-import { CategoriaModel } from '../../configuracao/categoria.model';
+import { CategoriaModel } from '../../model/categoria.model';
 import { DatabaseProvider } from '../../providers/database/database';
 
 @IonicPage({ name: "page-categoria" })

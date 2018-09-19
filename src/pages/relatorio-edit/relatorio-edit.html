@@ -21,59 +21,90 @@
 <ion-content>
   <div [ngSwitch]="option">
     <div *ngSwitchCase="'receita'">
-      <ion-fab top right>
-        <button ion-fab mini (click)="addReceita()"><ion-icon name="add"></ion-icon></button>
-      </ion-fab>
+      <!-- <ion-fab top right edge>
+        <button ion-fab mini (click)="addReceita()">
+          <ion-icon name="add"></ion-icon>
+        </button>
+      </ion-fab> -->
 
-      <div *ngIf="categoriasEntrada">
-        <ion-card *ngFor="let cat of categoriasEntrada[0].subcategoria">
-          <ion-card-header>{{cat.value}}</ion-card-header>
-          <ion-card-content>
-            <ion-list>
-              <div *ngFor="let receita of relatorio.receitas; index as i">
-                <ion-item *ngIf="cat.key==receita.categoria">
-                  <button ion-button clear item-start>{{receita.data | datebr}}</button>
-                  <ion-grid>
-                    <ion-row>
-                      <ion-col col-2>{{receita.autor | categoria:"autores"}}</ion-col>
-                      <ion-col col-8>{{receita.descricao}}</ion-col>
-                      <ion-col col-2>{{receita.valor | money}}</ion-col>
-                    </ion-row>
-                  </ion-grid>
-                  <ion-buttons right item-end>
-                    <button ion-button color="danger" clear (click)="removeReceita(i)">
-                      <ion-icon name="trash"></ion-icon>
-                    </button>
-                    <button ion-button clear (click)="editReceita(receita)">
-                      <ion-icon name="create"></ion-icon>
-                    </button>
-                  </ion-buttons>
-                </ion-item>
-              </div>
-            </ion-list>
-          </ion-card-content>
-        </ion-card>
-      </div>
-      
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <button ion-button clear color="dark">Lista de Receitas</button>
+          </ion-col>
+          <ion-col>
+            <ion-buttons right>
+              <button ion-button color="primary" clear (click)="addReceita()" [disabled]="relatorio.done">
+                <ion-icon name="add"></ion-icon> Nova Receita
+              </button>
+            </ion-buttons>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+
+      <ion-card *ngFor="let cat of categoria.entrada">
+        <ion-card-header>{{cat.value}}</ion-card-header>
+        <ion-card-content>
+          <ion-list>
+            <div *ngFor="let receita of relatorio.receitas; index as i">
+              <ion-item *ngIf="cat.key==receita.categoria">
+                <button ion-button clear item-start>{{receita.data | datebr}}</button>
+                <ion-grid>
+                  <ion-row>
+                    <ion-col col-2>{{receita.autor | categoria:"autores"}}</ion-col>
+                    <ion-col col-8>{{receita.descricao}}</ion-col>
+                    <ion-col col-2>{{receita.valor | money}}</ion-col>
+                  </ion-row>
+                </ion-grid>
+                <ion-buttons right item-end>
+                  <button ion-button color="danger" clear (click)="removeReceita(i)" [disabled]="relatorio.done">
+                    <ion-icon name="trash"></ion-icon>
+                  </button>
+                  <button ion-button clear (click)="editReceita(receita)" [disabled]="relatorio.done">
+                    <ion-icon name="create"></ion-icon>
+                  </button>
+                </ion-buttons>
+              </ion-item>
+            </div>
+          </ion-list>
+        </ion-card-content>
+      </ion-card>
     </div>
 
     <div *ngSwitchCase="'despesa'">
 
-      <ion-fab bottom right>
+      <!-- <ion-fab bottom right>
         <button ion-fab mini color="danger" (click)="addDespesa()">
           <ion-icon name="add"></ion-icon>
         </button>
-      </ion-fab>
+      </ion-fab> -->
 
-      <div *ngIf="categoriasSaida">
-        <div *ngFor="let catt of categoriasSaida[0]['subcategoria']">
-          <!-- {{catt|json}} -->
-          <ion-card *ngFor="let cat of catt['subcategoria']">
-            <ion-card-header>{{cat.value}}</ion-card-header>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <button ion-button clear color="dark">Lista de Despesas</button>
+          </ion-col>
+          <ion-col>
+            <ion-buttons right>
+              <button ion-button color="primary" clear color="danger" (click)="addDespesa()" [disabled]="relatorio.done">
+                <ion-icon name="add"></ion-icon> Nova Despesa
+              </button>
+            </ion-buttons>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+
+      <ion-card *ngFor="let cat of categoria.saida">
+        <ion-card-header [style.background]="'white'"><b>{{cat.value}}</b></ion-card-header>
+        <ion-card-content>
+          <ion-card *ngFor="let sub of cat.subcategoria">
+            <ion-card-header>{{sub.value}}</ion-card-header>
             <ion-card-content>
               <ion-list>
                 <div *ngFor="let despesa of relatorio.despesas; index as i">
-                  <ion-item *ngIf="cat.key==despesa.categoria">
+                  <ion-item *ngIf="despesa.categoria.subcategoria && sub.key==despesa.categoria.subcategoria[0].key">
                     <button ion-button clear item-start>{{despesa.data | datebr}}</button>
                     <ion-grid>
                       <ion-row>
@@ -83,10 +114,10 @@
                       </ion-row>
                     </ion-grid>
                     <ion-buttons right item-end>
-                      <button ion-button color="danger" clear (click)="removeDespesa(i)">
+                      <button ion-button color="danger" clear (click)="removeDespesa(i)" [disabled]="relatorio.done">
                         <ion-icon name="trash"></ion-icon>
                       </button>
-                      <button ion-button clear (click)="editDespesa(despesa)">
+                      <button ion-button clear (click)="editDespesa(despesa)" [disabled]="relatorio.done">
                         <ion-icon name="create"></ion-icon>
                       </button>
                     </ion-buttons>
@@ -95,8 +126,10 @@
               </ion-list>
             </ion-card-content>
           </ion-card>
-        </div>
-      </div>
+        </ion-card-content>
+
+      </ion-card>
+
     </div>
   </div>
 </ion-content>

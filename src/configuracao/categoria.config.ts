@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CategoriaModel } from "./categoria.model";
+import { CategoriaModel } from "../model/categoria.model";
 
 @Injectable()
 export class CategoriaConfig{

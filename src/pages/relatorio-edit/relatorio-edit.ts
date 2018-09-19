@@ -4,8 +4,7 @@ import { RelatorioModel } from '../../model/relatorio.model';
 import { ReceitaPage } from '../receita/receita';
 import { DespesaPage } from '../despesa/despesa';
 import { DatabaseProvider } from '../../providers/database/database';
-import { CategoriaConfig } from '../../configuracao/categoria.config';
-import { CategoriaModel } from '../../configuracao/categoria.model';
+import { Categoria } from '../../configuracao/categoria';
 
 @IonicPage()
 @Component({
@@ -17,10 +16,7 @@ export class RelatorioEditPage implements OnInit {
   title: number = 0
   relatorio: RelatorioModel
   option: string = "receita"
-  categorias: CategoriaConfig
-
-  categoriasEntrada: Array<CategoriaModel>
-  categoriasSaida: Array<CategoriaModel>
+  categoria: any
 
   constructor(
     private db: DatabaseProvider,
@@ -29,23 +25,15 @@ export class RelatorioEditPage implements OnInit {
   }
 
   ngOnInit() {
-    this.categorias = new CategoriaConfig()
+    this.categoria = Categoria
     this.relatorio = this.navParams.get('payload')
     this.title = this.relatorio.competencia.mes
 
-    this.db.getCategoria('entrada').then(res=>{
-      // console.log(res)
-      this.categoriasEntrada = <Array<CategoriaModel>>res;
-    })
-
-    this.db.getCategoria('saida').then(res=>{
-      console.log(res)
-      this.categoriasSaida = <Array<CategoriaModel>>res;
-    })
+    console.log(this.categoria)
   }
 
   addReceita() {
-    let md = this.modal.create(ReceitaPage, {categoria: this.categoriasEntrada})
+    let md = this.modal.create(ReceitaPage, {categoria: this.categoria})
     md.present()
     md.onWillDismiss(data => {
       if (data != undefined) {
@@ -61,7 +49,7 @@ export class RelatorioEditPage implements OnInit {
   }
 
   editReceita(receita){
-    let md = this.modal.create(ReceitaPage, {payload: receita})
+    let md = this.modal.create(ReceitaPage, {payload: receita, categoria: this.categoria})
     md.present()
     md.onWillDismiss(data => {
       this.db.handleRelatorio().update(this.relatorio)
@@ -69,10 +57,11 @@ export class RelatorioEditPage implements OnInit {
   }
 
   addDespesa() {
-    let md = this.modal.create(DespesaPage, {categoria: this.categoriasSaida})
+    let md = this.modal.create(DespesaPage, {categoria: this.categoria})
     md.present()
     md.onWillDismiss(data => {
       if (data != undefined) {
+        // console.log(data)
         this.relatorio.addDespesa(data.payload)
         this.db.handleRelatorio().update(this.relatorio)
       }
@@ -85,7 +74,7 @@ export class RelatorioEditPage implements OnInit {
   }
 
   editDespesa(despesa){
-    let md = this.modal.create(ReceitaPage, {payload: despesa})
+    let md = this.modal.create(DespesaPage, {payload: despesa, categoria: this.categoria})
     md.present()
     md.onWillDismiss(data => {
       this.db.handleRelatorio().update(this.relatorio)
