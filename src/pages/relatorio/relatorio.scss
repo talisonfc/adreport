@@ -1,9 +1,20 @@
-relatorio {
+relatorio-page {
     ion-list .label-md{
         margin: 0;
     }
+    
+    .empty{
+        color: #888;
+        text-align: center;
+        margin-top: 5%;
+    }
 
-    ion-list .button-md{
-        height: auto;
+    .empty ion-icon{
+        font-size: 20em;
+    }
+
+    .empty p{
+        width: 50%;
+        margin-left: 25%;
     }
 }

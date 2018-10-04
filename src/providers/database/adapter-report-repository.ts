@@ -17,6 +17,7 @@ export class AdaperReportRepository extends Repository<RelatorioModel>{
             ar.forEach(filename => {
                 this.getReport(filename).subscribe(res => {
                     let relatorio = new RelatorioModel()
+                    relatorio.key = res['key'] || undefined
                     relatorio.competencia = res['competencia']
                     relatorio.dataInicio = res['dataInicio']
                     relatorio.dataFim = res['dataFim']
@@ -26,11 +27,28 @@ export class AdaperReportRepository extends Repository<RelatorioModel>{
                     }
                     if (res['despesas']) {
                         relatorio.despesas = this.daoDespesas(res['despesas'])
-                    }        
+                    }
+                    if (res['copias']) {
+                        res['copias'].forEach(relatorioCopia => {
+                            let temp = new RelatorioModel()
+                            temp.key = relatorioCopia['key'] || undefined
+                            temp.competencia = relatorioCopia['competencia']
+                            temp.dataInicio = relatorioCopia['dataInicio']
+                            temp.dataFim = relatorioCopia['dataFim']
+                            temp.done = relatorioCopia['done']
+                            if (relatorioCopia['receitas']) {
+                                temp.receitas = this.daoReceitas(relatorioCopia['receitas'])
+                            }
+                            if (relatorioCopia['despesas']) {
+                                temp.despesas = this.daoDespesas(relatorioCopia['despesas'])
+                            }
+                            relatorio.copias.push(temp)
+                        })
+                    }
                     super.addRep(<RelatorioModel>relatorio)
                 })
             });
-            
+
         })
     }
 

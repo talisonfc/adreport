@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { ReceitaModel } from '../../model/receita.model';
 import { CategoriaConfig } from '../../configuracao/categoria.config';
 import { DatabaseProvider } from '../../providers/database/database';
@@ -40,20 +40,20 @@ export class ReceitaPage implements OnInit{
       this.receita = new ReceitaModel()
 
       this.form = this.fb.group({
-        data: [''],
-        valor: [''],
-        descricao: [''],
-        categoria: [''],
-        autor: ['']
+        data: ['', Validators.required],
+        valor: ['', Validators.required],
+        descricao: ['', Validators.required],
+        categoria: ['', Validators.required],
+        autor: ['', Validators.required]
       })
     }
     else{
       this.form = this.fb.group({
-        data: [this.receita.data],
-        valor: [this.receita.valor],
-        descricao: [this.receita.descricao],
-        categoria: [this.receita.categoria],
-        autor: [this.receita.autor]
+        data: [this.receita.data, Validators.required],
+        valor: [this.receita.valor, Validators.required],
+        descricao: [this.receita.descricao, Validators.required],
+        categoria: [this.receita.categoria, Validators.required],
+        autor: [this.receita.autor, Validators.required]
       })
     }
   }

@@ -17,45 +17,15 @@
   <!-- <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar> -->
   <ion-list>
     <div *ngFor="let relatorio of relatorios; index as i">
-      <reportlinecontrollers [relatorio]="relatorio"></reportlinecontrollers>
+      <reportlinecontrollers [relatorio]="relatorio" (onCopyReport)="copyReport(relatorio, relatorio)"></reportlinecontrollers>
+      <div style="margin-left: 30px;">
+        <reportlinecontrollers class="copia" *ngFor="let copyrport of relatorio.copias" [relatorio]="copyrport" [root]="relatorio" (onCopyReport)="copyReport(copyrport, relatorio)"></reportlinecontrollers>
+      </div>
     </div>
-    <!-- <ion-item *ngFor="let relatorio of relatorios; index as i">
-      <reportlinecontrollers [relatorio]="relatorio"></reportlinecontrollers>
-    </ion-item> -->
-      <!-- <button ion-button clear color="dark" item-start (click)="open(relatorio)">
-        <ion-icon [style.color]="relatorio.done?'#888':'#000'" name="paper"></ion-icon>
-      </button>
-      <b ion-text [style.color]="relatorio.done?'#888':'#000'">
-        {{relatorio.competencia.mes | competencia}} - {{relatorio.competencia.ano}}</b>
-      <i ion-text [style.color]="relatorio.done?'#888':'#000'">
-        [{{relatorio.dataInicio | datebr}} - {{relatorio.dataFim | datebr}}]</i>
-      <ion-buttons right item-end>
-        <button ion-button clear (click)="generateFullReport(relatorio)">
-          <ion-icon name="ios-document"></ion-icon>
-          Relatório Analítico
-        </button>
-        <button ion-button clear (click)="generateSimpleReport(relatorio)">
-          <ion-icon name="ios-document-outline"></ion-icon>
-          Relatório Resumido
-        </button>
-        <button ion-button outline color="dark" (click)="closeReport(relatorio)" [hidden]="relatorio.done">
-          <ion-icon name="close"></ion-icon>
-          Fechar Relatório
-        </button>
-        <button ion-button outline color="dark" (click)="copyReport(relatorio)" [hidden]="!relatorio.done">
-          <ion-icon name="copy"></ion-icon>
-          Criar Cópia
-        </button>
-        <button ion-button clear color="danger" (click)="remove(relatorio, i)" [disabled]="relatorio.done">
-          <ion-icon name="trash"></ion-icon>
-        </button>
-        <button ion-button clear (click)="edit(relatorio)" [disabled]="relatorio.done">
-          <ion-icon name="create"></ion-icon>
-        </button>
-        <button ion-button clear color="dark" (click)="open(relatorio)">
-          <ion-icon name="ios-arrow-dropright-circle-outline"></ion-icon>
-        </button>
-      </ion-buttons> -->
-    <!-- </ion-item> -->
   </ion-list>
+
+  <div class="empty" [hidden]="relatorios==0?false:true">
+    <ion-icon name="paper"></ion-icon>
+    <p>Nenhum relatório criado. Para criar um novo relatório click na opção Criar Relatório no canto superior direito desta tela.</p>
+  </div>
 </ion-content>

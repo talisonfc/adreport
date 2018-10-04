@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController, AlertController } from 'ionic-angular';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { DespesaModel } from '../../model/despesa.model';
 import { CategoriaModel } from '../../model/categoria.model';
 
@@ -31,20 +31,20 @@ export class DespesaPage implements OnInit{
       this.despesa = new DespesaModel()
 
       this.form = this.fb.group({
-        data: [''],
-        valor: [''],
-        descricao: [''],
-        categoria: [''],
-        autor: ['']
+        data: ['', Validators.required],
+        valor: ['', Validators.required],
+        descricao: ['', Validators.required],
+        categoria: ['', Validators.nullValidator],
+        autor: ['', Validators.required]
       })
     }
     else{
       this.form = this.fb.group({
-        data: [this.despesa.data],
-        valor: [this.despesa.valor],
-        descricao: [this.despesa.descricao],
-        categoria: [''],
-        autor: [this.despesa.autor]
+        data: [this.despesa.data, Validators.required],
+        valor: [this.despesa.valor, Validators.required],
+        descricao: [this.despesa.descricao, Validators.required],
+        categoria: ['', Validators.nullValidator],
+        autor: [this.despesa.autor, Validators.required]
       })
     }
     

@@ -15,6 +15,7 @@ export class RelatorioEditPage implements OnInit {
 
   title: number = 0
   relatorio: RelatorioModel
+  root: RelatorioModel
   option: string = "receita"
   categoria: any
 
@@ -27,9 +28,11 @@ export class RelatorioEditPage implements OnInit {
   ngOnInit() {
     this.categoria = Categoria
     this.relatorio = this.navParams.get('payload')
+    this.root = this.navParams.get('root')
     this.title = this.relatorio.competencia.mes
 
-    console.log(this.categoria)
+    console.log(this.relatorio)
+    // console.log(this.categoria)
   }
 
   addReceita() {
@@ -38,21 +41,24 @@ export class RelatorioEditPage implements OnInit {
     md.onWillDismiss(data => {
       if (data != undefined) {
         this.relatorio.addReceita(data.payload)
-        this.db.handleRelatorio().update(this.relatorio)
+        // this.db.handleRelatorio().update(this.relatorio)
+        this.update()
       }
     })
   }
 
   removeReceita(index: number){
     this.relatorio.receitas.splice(index,1)
-    this.db.handleRelatorio().update(this.relatorio)
+    // this.db.handleRelatorio().update(this.relatorio)
+    this.update()
   }
 
   editReceita(receita){
     let md = this.modal.create(ReceitaPage, {payload: receita, categoria: this.categoria})
     md.present()
     md.onWillDismiss(data => {
-      this.db.handleRelatorio().update(this.relatorio)
+      // this.db.handleRelatorio().update(this.relatorio)
+      this.update()
     })
   }
 
@@ -63,25 +69,37 @@ export class RelatorioEditPage implements OnInit {
       if (data != undefined) {
         // console.log(data)
         this.relatorio.addDespesa(data.payload)
-        this.db.handleRelatorio().update(this.relatorio)
+        // this.db.handleRelatorio().update(this.relatorio)
+        this.update()
       }
     })
   }
 
   removeDespesa(index: number){
     this.relatorio.despesas.splice(index,1)
-    this.db.handleRelatorio().update(this.relatorio)
+    // this.db.handleRelatorio().update(this.relatorio)
+    this.update()
   }
 
   editDespesa(despesa){
     let md = this.modal.create(DespesaPage, {payload: despesa, categoria: this.categoria})
     md.present()
     md.onWillDismiss(data => {
-      this.db.handleRelatorio().update(this.relatorio)
+      // this.db.handleRelatorio().update(this.relatorio)
+      this.update()
     })
   }
 
   getItems(event){
 
+  }
+
+  update(){
+    if(this.root){
+      this.db.handleRelatorio().update(this.root)  
+    }
+    else{
+      this.db.handleRelatorio().update(this.relatorio)
+    }
   }
 }

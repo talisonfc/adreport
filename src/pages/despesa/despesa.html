@@ -23,7 +23,7 @@
 
       <ion-item>
         <ion-label>Valor</ion-label>
-        <ion-input [brmasker]="{money: true}" formControlName="valor"></ion-input>
+        <ion-input [brmasker]="{money: true, decimalCaracter: '.'}" formControlName="valor"></ion-input>
 
       </ion-item>
 
@@ -55,7 +55,7 @@
 
     <ion-buttons right>
       <button type="reset" ion-button color="danger">Limpar</button>
-      <button type="submit" ion-button (click)="save()">Salvar</button>
+      <button type="submit" ion-button (click)="save()" [disabled]="!form.valid">Salvar</button>
     </ion-buttons>
   </form>
 </ion-content>

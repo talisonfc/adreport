@@ -5,7 +5,7 @@ export const Categoria = {
             "value": "Imobilizado",
             "subcategoria": [
                 {"key": "imoveis", "value": "Imóveis"},
-                {"key": "veiculos", "value": "Veiculos"},
+                {"key": "imobilizado_veiculos", "value": "Veiculos"},
                 {"key": "moveis_utensilios", "value": "Moveis e Utensilios"},
                 {"key": "instalacoes", "value": "Instalações"},
                 {"key": "maquinas_equipamentos", "value": "Máquinas e Equipamentos"}
@@ -18,7 +18,7 @@ export const Categoria = {
                 {"key": "expediente", "value": "Material de Expediente"},
                 {"key": "telefone", "value": "Despesa com Telefone"},
                 {"key": "higiene_limpeza", "value": "Material Higiene e Limpeza"},
-                {"key": "veiculos", "value": "Despesas com Veículos"},
+                {"key": "administrativas_veiculos", "value": "Despesas com Veículos"},
                 {"key": "ofertas", "value": "Auxilios e Ofertas"},
                 {"key": "medicamentos", "value": "Depesas com Medicamentos"},
                 {"key": "luz", "value": "Luz"},

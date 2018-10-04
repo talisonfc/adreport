@@ -16,11 +16,11 @@
       <ion-icon name="ios-document-outline"></ion-icon>
       Relatório Resumido
     </button>
-    <button ion-button outline color="dark" (click)="closeReport(relatorio)" [hidden]="relatorio.done">
+    <button ion-button clear color="dark" (click)="closeReport(relatorio)" [hidden]="relatorio.done">
       <ion-icon name="close"></ion-icon>
       Fechar Relatório
     </button>
-    <button ion-button outline color="dark" (click)="copyReport(relatorio)" [hidden]="!relatorio.done">
+    <button ion-button clear color="dark" (click)="copyReport(relatorio)" [hidden]="!relatorio.done">
       <ion-icon name="copy"></ion-icon>
       Criar Cópia
     </button>
